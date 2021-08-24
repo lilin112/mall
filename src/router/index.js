@@ -1,20 +1,27 @@
+/* eslint-disable space-in-parens */
+/* eslint-disable func-call-spacing */
 /* eslint-disable space-before-function-paren */
 /* eslint-disable no-undef */
 /* eslint-disable indent */
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/home/Home.vue'
-import Login from '../views/login/Login'
-import Register from '../views/register/Register.vue'
 
 const routes = [{
         path: '/',
         name: 'Home',
-        component: Home
+        component: () =>
+            import ( /* webpackChunkName: "home" */ '../views/home/Home.vue')
+    },
+    {
+        path: '/shop',
+        name: 'Shop',
+        component: () =>
+            import ( /* webpackChunkName: "shop" */ '../views/shop/Shop')
     },
     {
         path: '/login',
         name: 'Login',
-        component: Login,
+        component: () =>
+            import ( /* webpackChunkName: "login" */ '../views/login/Login'),
         // eslint-disable-next-line space-before-function-paren
         beforeEnter(to, from, next) {
             const { isLogin } = localStorage
@@ -24,7 +31,8 @@ const routes = [{
     {
         path: '/register',
         name: 'Register',
-        component: Register,
+        component: () =>
+            import ( /* webpackChunkName: "register" */ '../views/register/Register.vue'),
         beforeEnter(to, from, next) {
             const { isLogin } = localStorage
             isLogin ? next({ name: 'Home' }) : next()
